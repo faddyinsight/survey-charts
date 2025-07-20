@@ -8,10 +8,11 @@
 <body style="margin:0">
   <canvas id="chart"></canvas>
   <script>
-    // Get data from URL parameters
     const urlParams = new URLSearchParams(window.location.search);
-    const labels = urlParams.get('labels')?.split(',') || ["2025-07-01", "2025-07-02"];
-    const data = urlParams.get('data')?.split(',').map(Number) || [10, 20];
+    const labels = urlParams.get('labels')?.split(',') || [];
+    const data = urlParams.get('data')?.split(',').map(Number) || [];
+    const chartLabel = urlParams.get('label') || 'Your Walking Activity';
+    const color = urlParams.get('color') || 'green';
 
     const ctx = document.getElementById('chart').getContext('2d');
     new Chart(ctx, {
@@ -19,15 +20,17 @@
       data: {
         labels: labels,
         datasets: [{
-          label: urlParams.get('label') || 'Walking Activity',
+          label: chartLabel,
           data: data,
-          borderColor: urlParams.get('color') || 'green',
+          borderColor: color,
           fill: false,
           tension: 0.4
         }]
       },
       options: {
-        responsive: true
+        responsive: true,
+        plugins: { tooltip: { mode: 'index', intersect: false } },
+        scales: { y: { beginAtZero: true } }
       }
     });
   </script>
