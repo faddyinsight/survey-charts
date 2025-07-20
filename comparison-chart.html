@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="UTF-8">
+  <title>Comparison Chart</title>
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</head>
+<body style="margin:0">
+  <canvas id="chart"></canvas>
+  <script>
+    const urlParams = new URLSearchParams(window.location.search);
+
+    const labels = urlParams.get('labels')?.split(',') || [];
+    const userData = urlParams.get('userData')?.split(',').map(Number) || [];
+    const communityData = urlParams.get('communityData')?.split(',').map(Number) || [];
+
+    const ctx = document.getElementById('chart').getContext('2d');
+    new Chart(ctx, {
+      type: 'line',
+      data: {
+        labels: labels,
+        datasets: [
+          {
+            label: 'You',
+            data: userData,
+            borderColor: 'blue',
+            fill: false,
+            tension: 0.4
+          },
+          {
+            label: 'Community',
+            data: communityData,
+            borderColor: 'orange',
+            fill: false,
+            tension: 0.4
+          }
+        ]
+      },
+      options: {
+        responsive: true,
+        plugins: { tooltip: { mode: 'index', intersect: false } },
+        scales: { y: { beginAtZero: true } }
+      }
+    });
+  </script>
+</body>
+</html>
