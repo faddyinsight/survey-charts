@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="UTF-8">
+  <title>User Chart</title>
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</head>
+<body style="margin:0">
+  <canvas id="chart"></canvas>
+  <script>
+    // Get data from URL parameters
+    const urlParams = new URLSearchParams(window.location.search);
+    const labels = urlParams.get('labels')?.split(',') || ["2025-07-01", "2025-07-02"];
+    const data = urlParams.get('data')?.split(',').map(Number) || [10, 20];
+
+    const ctx = document.getElementById('chart').getContext('2d');
+    new Chart(ctx, {
+      type: 'line',
+      data: {
+        labels: labels,
+        datasets: [{
+          label: urlParams.get('label') || 'Walking Activity',
+          data: data,
+          borderColor: urlParams.get('color') || 'green',
+          fill: false,
+          tension: 0.4
+        }]
+      },
+      options: {
+        responsive: true
+      }
+    });
+  </script>
+</body>
+</html>
